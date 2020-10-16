@@ -1,5 +1,5 @@
-import express from 'express';
-import bodyParser from 'body-parser';
+const express = require('express');
+const bodyParser = require('body-parser');
 const port = process.env.PORT || 4000;
 const request = require('request-promise');
 
@@ -18,8 +18,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const reply = (reply_token, msg) => {
-	console.log('reply_token', reply_token);
-	console.log('msg', msg);
+	console.log('bodyResponse', bodyResponse);
 	return request.post({
 		uri: `${LINE_MESSAGING_API}/message/reply`,
 		headers: LINE_HEADER,
@@ -32,13 +31,13 @@ const reply = (reply_token, msg) => {
 
 app.post('/webhook', (req, res) => {
 	console.log('req.body', req.body);
-	const reply_token = req?.body?.events?.[0]?.replyToken;
-	const msg = req?.body?.events?.[0].message?.text;
-	if (reply_token) {
-		reply(reply_token, msg);
-	}
+	// if (req.body.events[0].type !== 'message' || req.body.events[0].message.type !== 'text') {
+	let reply_token = req.body.events[0].replyToken;
+	let msg = req.body.events[0].message.text;
+	reply(reply_token, msg);
+	// }
 
-	return res.sendStatus(200);
+	return res.statusStatus(200);
 });
 
 // exports.LineBotPush = functions.https.onRequest(async (req, res) => {
