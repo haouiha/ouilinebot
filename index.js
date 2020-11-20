@@ -47,7 +47,7 @@ app.post('/webhook2', (req, res) => {
 // };
 // app.post('/webhook', line.middleware(config), webhook);
 
-app.post('/webhook', line.middleware(config), (req, res) => {
+app.post('/webhook', (req, res) => {
 	try {
 		Promise.all(req.body.events.map(handleEvent)).catch((e) => {
 			console.log(e);
