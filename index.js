@@ -2,15 +2,15 @@ import express from 'express';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import * as line from '@line/bot-sdk';
-import showcase01 from './showcase01.json';
-import mongodbStart from './db';
-import LineUser from './models/lineUser-model';
-import lineUserRouter from './src/routes/lineUser-router';
+// import showcase01 from './showcase01.json';
+// import mongodbStart from './db';
+// import LineUser from './models/lineUser-model';
+// import lineUserRouter from './src/routes/lineUser-router';
 import cors from 'cors';
 // import richMenu01 from './assets/richMenu01.jpeg';
 import fs from 'fs';
 
-mongodbStart();
+// mongodbStart();
 
 dotenv.config();
 const port = process.env.PORT || 4000;
@@ -58,16 +58,16 @@ app.post('/webhook', line.middleware(config), (req, res) => {
 	}
 });
 
-function handleEvent(event) {
-	if (event.type !== 'message' || event.message.type !== 'text') {
-		return Promise.resolve(null);
-	}
+// function handleEvent(event) {
+// 	if (event.type !== 'message' || event.message.type !== 'text') {
+// 		return Promise.resolve(null);
+// 	}
 
-	return client.replyMessage(event.replyToken, {
-		type: 'text',
-		text: event.message.text,
-	});
-}
+// 	return client.replyMessage(event.replyToken, {
+// 		type: 'text',
+// 		text: event.message.text,
+// 	});
+// }
 
 // app.post('/webhook3', (req, res) => {
 // 	Promise.all(req.body.events.map((e) => handleEvent(e)))
@@ -84,45 +84,45 @@ async function handleEvent(event) {
 	console.log('event', event);
 	let userId = null;
 	switch (event.type) {
-		case 'follow':
-			console.log('user add bot');
-			userId = event.source.userId;
-			const userInfo = await client.getProfile(userId);
-			const newLineUser = new LineUser(userInfo);
-			console.log('newLineUser', newLineUser);
-			newLineUser.save();
+		// case 'follow':
+		// 	console.log('user add bot');
+		// 	userId = event.source.userId;
+		// 	const userInfo = await client.getProfile(userId);
+		// 	const newLineUser = new LineUser(userInfo);
+		// 	console.log('newLineUser', newLineUser);
+		// 	newLineUser.save();
 
-			const registerLink = `${process.env.WEB_APP_URL}/register/${userId}`;
+		// 	const registerLink = `${process.env.WEB_APP_URL}/register/${userId}`;
 
-			return client.replyMessage(event.replyToken, {
-				type: 'template',
-				altText: 'register',
-				template: {
-					type: 'buttons',
-					thumbnailImageUrl:
-						'https://images.unsplash.com/photo-1533745848184-3db07256e163?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1789&q=80',
-					imageAspectRatio: 'rectangle',
-					imageSize: 'cover',
-					imageBackgroundColor: '#5BC3EA',
-					title: 'บอทนะจ้ะ',
-					text: 'กรุณาลงทะเบียน',
-					actions: [
-						{
-							type: 'uri',
-							label: 'Register',
-							uri: registerLink,
-						},
-					],
-				},
-			});
+		// 	return client.replyMessage(event.replyToken, {
+		// 		type: 'template',
+		// 		altText: 'register',
+		// 		template: {
+		// 			type: 'buttons',
+		// 			thumbnailImageUrl:
+		// 				'https://images.unsplash.com/photo-1533745848184-3db07256e163?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1789&q=80',
+		// 			imageAspectRatio: 'rectangle',
+		// 			imageSize: 'cover',
+		// 			imageBackgroundColor: '#5BC3EA',
+		// 			title: 'บอทนะจ้ะ',
+		// 			text: 'กรุณาลงทะเบียน',
+		// 			actions: [
+		// 				{
+		// 					type: 'uri',
+		// 					label: 'Register',
+		// 					uri: registerLink,
+		// 				},
+		// 			],
+		// 		},
+		// 	});
 
-		case 'unfollow':
-			console.log('user block bot');
-			userId = event.source.userId;
-			const response = await LineUser.deleteOne({ userId });
-			console.log('response', response);
+		// case 'unfollow':
+		// 	console.log('user block bot');
+		// 	userId = event.source.userId;
+		// 	const response = await LineUser.deleteOne({ userId });
+		// 	console.log('response', response);
 
-			return;
+		// 	return;
 		case 'message':
 			if (event.message.type === 'text') {
 				return client.replyMessage(event.replyToken, {
@@ -164,7 +164,7 @@ app.get('/createRichMenu', async (req, res) => {
 					},
 					action: {
 						type: 'uri',
-						uri: 'line://app/101',
+						uri: 'https://liff.line.me/1655106289-EMMPpmxP',
 					},
 				},
 				{
@@ -322,7 +322,7 @@ app.get('/hello', async (req, res) => {
 	}
 });
 
-app.use('/api', lineUserRouter);
+// app.use('/api', lineUserRouter);
 
 app.listen(port, () => {
 	console.log(`Example app listening at http://localhost:${port}`);

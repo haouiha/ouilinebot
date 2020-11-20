@@ -25,6 +25,7 @@
     "nodemon": "^2.0.5",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
-    "restify": "^8.5.1"
+    "restify": "^8.5.1",
+    "restify-router": "^0.6.2"
   }
 }

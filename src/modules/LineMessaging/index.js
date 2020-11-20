@@ -2,8 +2,6 @@
 
 import * as line from '@line/bot-sdk';
 import { createServer, plugins } from 'restify';
-import dotenv from 'dotenv';
-dotenv.config();
 
 const config = {
 	channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
